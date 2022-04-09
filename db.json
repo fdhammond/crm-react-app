@@ -1,0 +1,20 @@
+{
+  "clients": [
+    {
+      "clientName": "Pulguita Rodriguez",
+      "company": "Amazon",
+      "email": "fasdads@gmail.com",
+      "phone": "0298745465",
+      "notes": "",
+      "id": 1
+    },
+    {
+      "clientName": "Roman Riquelme",
+      "company": "Google",
+      "email": "fasdads@gmail.com",
+      "phone": "0298745465",
+      "notes": "Googleeeeeeeeeeeeee",
+      "id": 2
+    }
+  ]
+}
