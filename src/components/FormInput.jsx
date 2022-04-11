@@ -2,8 +2,9 @@ import { Formik, Form, Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Alert from "./Alert";
+import Spinner from "./Spinner";
 
-const FormInput = () => {
+const FormInput = ({ client, loading }) => {
   const navigate = useNavigate();
 
   const newClientSchema = Yup.object().shape({
@@ -40,19 +41,22 @@ const FormInput = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <div className="bg-white mt-10 px-5 py-10 rounded-md shadow-md md:w-3/4 mx-auto">
       <h1 className="text-gray-600 font-bold text-xl uppercase text-center">
-        Add Client
+        {client?.clientName ? "Edit Client" : "Add Client"}
       </h1>
       <Formik
         initialValues={{
-          clientName: "",
-          company: "",
-          email: "",
-          phone: "",
-          notes: "",
+          clientName: client?.clientName ?? "",
+          company: client?.company ?? "",
+          email: client?.email ?? "",
+          phone: client?.phone ?? "",
+          notes: client?.notes ?? "",
         }}
+        enableReinitialize={true}
         onSubmit={async (values, { resetForm }) => {
           await handleSubmit(values);
           resetForm();
@@ -137,7 +141,7 @@ const FormInput = () => {
 
               <input
                 type="submit"
-                value="Add Client"
+                value={client?.clientName ? "Edit Client" : "Add Client"}
                 className="mt-5 w-full bg-blue-800 p-3 text-white uppercase font-bold text-lg"
               />
             </Form>
@@ -146,6 +150,11 @@ const FormInput = () => {
       </Formik>
     </div>
   );
+};
+
+FormInput.defaultProps = {
+  client: {},
+  loading: false,
 };
 
 export default FormInput;
