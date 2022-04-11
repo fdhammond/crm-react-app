@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { array } from "yup";
 import Client from "../components/Client";
 
 const Init = () => {
@@ -19,6 +20,24 @@ const Init = () => {
     obtainClientsAPI();
   }, []);
 
+  const handleDelete = async (id) => {
+    const confirmDelete = confirm("Are you sure you want to delete Client?");
+    if (confirmDelete) {
+      try {
+        const url = `http://localhost:4000/clients/${id}`;
+        const response = await fetch(url, {
+          method: "DELETE",
+        });
+        await response.json();
+
+        const arrayClients = clients.filter((client) => client.id !== id);
+        setClients(arrayClients);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <>
       <h1 className="font-black text-4xl text-blue-900">Clients</h1>
@@ -35,7 +54,11 @@ const Init = () => {
         </thead>
         <tbody>
           {clients.map((client) => (
-            <Client client={client} key={client.id} />
+            <Client
+              client={client}
+              key={client.id}
+              handleDelete={handleDelete}
+            />
           ))}
         </tbody>
       </table>
